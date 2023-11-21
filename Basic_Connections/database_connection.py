@@ -5,5 +5,4 @@ def db_con():
     user='root',
     password='PDRK_Lion@123'
     )
-    return mydb.is_connected()
-
+    return mydb

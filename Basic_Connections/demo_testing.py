@@ -18,7 +18,9 @@ cur = mydb.cursor()
 
 #cur.execute("create database test_data_science_db")
 
-cur.execute("use test_data_science_db")
+cur.execute("use Iris_database")
 
-cur.execute("create table test1 (name varchar(40), roll_no int, mail_id varchar(50))")
+cur.execute("select * from iris_dataset")
 
+for row in cur.fetchall():
+    print(row)
