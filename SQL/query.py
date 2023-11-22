@@ -9,4 +9,16 @@ mydb = mysql.connector.connect(
 print(mydb)
 mycursor = mydb.cursor()
 
-mycursor.execute('create table if not exists ineuron.fsds(studentid int , firstname varchar(50) , lastname varchar(50) , registrationdate DATE,class varchar(20) , course_name varchar(50))')
+
+
+mycursor.execute("select * from ineuron.fsds")
+
+for i in mycursor:
+    print(i)
+
+# Only to get sepecific columns then 
+
+mycursor.execute("select studentid, firstname, class from ineuron.fsds")
+
+for i in mycursor:
+    print(i)
