@@ -1,4 +1,3 @@
--- Active: 1700521783060@@127.0.0.1@3306
 use employees;
 
 DROP TABLE IF EXISTS departments_dup;
@@ -63,3 +62,80 @@ select * from dept_manager_dup order by dept_no;
 
 -- Selecting department table 
 select * from departments_dup order by dept_no;
+
+# Find the dept_no matching values from the department_dup and dept_manager_dup table
+SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        INNER JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+ORDER BY m.dept_no;
+
+
+# Extract a list containing information about all managers’ employee number, first and last name, department number, and hire date. 
+SELECT 
+    e.emp_no, e.first_name, e.last_name, e.hire_date, d.dept_no
+FROM
+    employees e
+        INNER JOIN
+    dept_manager d ON e.emp_no = d.emp_no
+ORDER BY d.emp_no;
+
+
+
+-- Left Join
+# Find the dept_no matching values or unmaching values from the dept_manager_dup department_dup table
+SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        LEFT JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+ORDER BY m.dept_no;
+
+
+-- Left Join
+# Find the NULL VALUES	 from the dept_manager_dup department_dup table
+SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        LEFT JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+WHERE
+    d.dept_name IS NULL
+ORDER BY m.dept_no;
+
+
+-- Left Join
+# Find the NOT  NULL VALUES	 from the dept_manager_dup department_dup table
+SELECT 
+    m.dept_no, m.emp_no, d.dept_name
+FROM
+    dept_manager_dup m
+        LEFT JOIN
+    departments_dup d ON m.dept_no = d.dept_no
+WHERE
+    d.dept_name IS NOT NULL
+ORDER BY m.dept_no;
+
+
+/*
+Join the 'employees' and the 'dept_manager' tables to return a subset of all the employees whose last name is Markovitch. 
+See if the output contains a manager with that name.  
+
+Hint: Create an output containing information corresponding to the following fields: 
+‘emp_no’, ‘first_name’, ‘last_name’, ‘dept_no’, ‘from_date’. Order by 'dept_no' descending, and then by 'emp_no'.
+*/
+
+SELECT 
+    e.emp_no, e.first_name, e.last_name, d.dept_no
+FROM
+    employees e
+        LEFT JOIN
+    dept_manager d ON e.emp_no = d.emp_no
+WHERE
+    e.last_name = 'Markovitch'
+
+ORDER BY d.dept_no desc, e.emp_no;
