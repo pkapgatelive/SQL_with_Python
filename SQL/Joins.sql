@@ -211,7 +211,78 @@ select e.*, d.*, count(e.emp_no) as employees_count
 from employees e
 cross join 
 departments d
-where employees_count 
+where employees_count;
 
 
 -- Joins with the aggregate functions
+-- Extract the first name, last name, hire date, from date, department name
+
+	SELECT 
+		e.first_name,
+		e.last_name,
+		e.hire_date,
+		dm.from_date,
+		d.dept_name
+	FROM
+		employees e
+			INNER JOIN
+		dept_manager dm ON e.emp_no = dm.emp_no
+			INNER JOIN
+		departments d ON dm.dept_no = d.dept_no;
+
+
+-- Join more than two tables in SQL - exercise
+/* Select all managers’ first and last name, hire date, 
+job title, start date, and department name. */
+SELECT 
+    e.first_name,
+    e.last_name,
+    e.hire_date,
+    t.title,
+    dm.from_date,
+    d.dept_name
+FROM
+    employees e
+        JOIN
+    titles t ON e.emp_no = t.emp_no
+        JOIN
+    dept_manager dm ON e.emp_no = dm.emp_no
+        JOIN
+    departments d ON dm.dept_no = d.dept_no
+WHERE
+    t.title = 'Manager'
+ORDER BY e.emp_no;
+
+
+
+-- Tips and tricks for joins - exercise
+-- How many male and how many female managers do we have in the ‘employees’ database?
+
+SELECT 
+    e.gender, COUNT(e.gender) AS number_of_manager
+FROM
+    employees e
+        JOIN
+    titles t ON e.emp_no = t.emp_no
+WHERE
+    t.title = 'Manager'
+GROUP BY e.gender
+ORDER BY number_of_manager DESC;
+
+-- OR
+
+SELECT 
+    e.gender, COUNT(dm.emp_no)
+FROM
+    employees e
+        JOIN
+    dept_manager dm ON e.emp_no = dm.emp_no
+GROUP BY gender;
+
+
+
+-- UNION and UNION ALL
+
+# Create employees duplicate table
+Create table if not exists employees_dup as Select * from employees;
+
