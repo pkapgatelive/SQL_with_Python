@@ -1,3 +1,7 @@
+select @@global.sql_mode;
+
+
+
 use employees;
 
 DROP TABLE IF EXISTS departments_dup;
@@ -139,3 +143,75 @@ WHERE
     e.last_name = 'Markovitch'
 
 ORDER BY d.dept_no desc, e.emp_no;
+
+
+-- The new and the old join syntax - exercise
+
+/*Extract a list containing information about all managers’ 
+employee number, first and last name, department number, and hire date. 
+Use the old type of join syntax to obtain the result.*/
+
+SELECT 
+    e.emp_no, e.first_name, e.last_name, d.dept_no, e.hire_date
+FROM
+    employees e,
+    dept_manager d
+WHERE
+    e.emp_no = d.emp_no
+ORDER BY d.dept_no;
+
+
+
+-- JOIN and WHERE Used Together - exercise
+/*Select the first and last name, the hire date, and the job title of all employees 
+whose first name is “Margareta” and have the last name “Markovitch”.
+*/
+SELECT 
+    e.emp_no, e.first_name, e.last_name, e.hire_date, t.title
+FROM
+    employees e
+        JOIN
+    titles t ON e.emp_no = t.emp_no
+WHERE
+    e.first_name = 'Margareta'
+        AND e.last_name = 'Markovitch'
+ORDER BY e.emp_no;
+
+
+-- Cross Join
+SELECT 
+    d.*, dm.*
+FROM
+    departments d
+        CROSS JOIN
+    dept_manager dm;
+    
+-- CROSS JOIN - exercise 1
+/*
+Use a CROSS JOIN to return a list with all possible combinations between managers 
+from the dept_manager table and department number 9.
+*/
+SELECT 
+    d.*, dm.*
+FROM
+    departments d
+        CROSS JOIN
+    dept_manager dm
+WHERE
+    dm.dept_no = 'd009'
+ORDER BY d.dept_no;
+
+-- CROSS JOIN - exercise 2
+/*
+Return a list with the first 10 employees with all the departments they can be assigned to.
+Hint: Don’t use LIMIT; use a WHERE clause.
+*/
+
+select e.*, d.*, count(e.emp_no) as employees_count
+from employees e
+cross join 
+departments d
+where employees_count 
+
+
+-- Joins with the aggregate functions
