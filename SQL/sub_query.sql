@@ -29,3 +29,53 @@ WHERE
             employees e
         WHERE
             e.hire_date BETWEEN '1990-01-01' AND '1995-01-01');
+            
+-- Uses of Exits and Not Exits
+-- Exits
+SELECT 
+    e.first_name, e.last_name
+FROM
+    employees e
+WHERE
+    EXISTS( SELECT 
+            dm.emp_no
+        FROM
+            dept_manager dm
+        WHERE
+            dm.emp_no = e.emp_no)
+ORDER BY e.emp_no;
+
+-- Not Exits
+SELECT 
+    e.first_name, e.last_name
+FROM
+    employees e
+WHERE
+    NOT EXISTS( SELECT 
+            dm.emp_no
+        FROM
+            dept_manager dm
+        WHERE
+            dm.emp_no = e.emp_no)
+ORDER BY e.emp_no;
+
+
+-- SQL Subqueries with EXISTS-NOT EXISTS nested inside WHERE - exercise
+-- Select the entire information for all employees whose job title is “Assistant Engineer”. 
+-- Hint: To solve this exercise, use the 'employees' table.
+
+
+SELECT 
+    *
+FROM
+    employees e
+WHERE
+    EXISTS( SELECT 
+            t.emp_no
+        FROM
+            titles t
+        WHERE
+            t.emp_no = e.emp_no
+                AND t.title = 'Assistant Engineer')
+ORDER BY e.emp_no
+;
